@@ -105,7 +105,6 @@
   <script>
     (function () {
       var configured = AEGIS_APP_URL.indexOf("__") !== 0;
-      var appOrigin = configured ? new URL(AEGIS_APP_URL).origin : null;
       var fallbackTimer = null;
 
       if (/[?&]signout=1/.test(location.search)) {
@@ -115,9 +114,11 @@
       // The app posts 'aegis-ready' once it renders inside the iframe. If we don't
       // hear it (e.g. a first-time user hitting Google's consent, which refuses to
       // load in a frame), launch the app top-level instead.
+      // Note: Apps Script renders on a *.script.googleusercontent.com sandbox
+      // origin (not script.google.com), so we match on the message, not e.origin.
       window.addEventListener('message', function (e) {
-        if (appOrigin && e.origin === appOrigin && e.data === 'aegis-ready') {
-          if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; }
+        if (e.data === 'aegis-ready' && fallbackTimer) {
+          clearTimeout(fallbackTimer); fallbackTimer = null;
         }
       });
 
