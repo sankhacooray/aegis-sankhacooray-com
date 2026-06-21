@@ -6,7 +6,6 @@
   <title>Aegis — Medical Emergency Record</title>
   <meta name="description" content="Aegis keeps your critical medical information ready for emergency medical personnel. Sign in with Google to view and print your personal emergency summary.">
 
-  <!-- Open Graph / social preview -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Aegis">
   <meta property="og:title" content="Aegis — Medical Emergency Record">
@@ -18,8 +17,8 @@
 
   <meta name="theme-color" content="#c00000">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 6 L88 20 V52 C88 76 70 90 50 96 C30 90 12 76 12 52 V20 Z' fill='%23c00000'/%3E%3Cpath d='M44 28 h12 v16 h16 v12 h-16 v16 h-12 v-16 h-16 v-12 h16 z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!-- The Apps Script web-app /exec URL is injected here during deploy wiring. -->
   <script>
     var AEGIS_APP_URL = "https://script.google.com/macros/s/AKfycbzdwVdlKXmR_DtCHLpZojBHaWEdWo9y8R9wfMXKhbDm0qQCL_azl5Mw6hu9PYzjNHZ3wA/exec";
   </script>
@@ -33,43 +32,32 @@
       color: #1a1a1a; background: #f4f5f7; display: flex; flex-direction: column;
     }
 
-    header.bar {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 18px; background: #fff; border-bottom: 1px solid #e3e3e3;
-      box-shadow: 0 1px 3px rgba(0,0,0,.04);
-    }
-    .logo { width: 26px; height: 26px; }
-    .wordmark { font-weight: 800; letter-spacing: 1px; color: var(--aegis-red); font-size: 18px; }
-    .wordmark span { color: #888; font-weight: 400; letter-spacing: 0; font-size: 11px; margin-left: 6px; }
-    .bar .spacer { flex: 1; }
-    .open-link { font-size: 13px; color: var(--aegis-blue); text-decoration: none; font-weight: 600; }
-    .open-link:hover { text-decoration: underline; }
-
-    /* Landing (shown until the user launches) */
-    main {
-      flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px 20px;
-    }
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px 20px; }
     .card {
       max-width: 560px; width: 100%; background: #fff; border-radius: 14px;
       box-shadow: 0 8px 30px rgba(0,0,0,.08); padding: 40px 36px; text-align: center;
     }
     .card .shield { width: 64px; height: 64px; margin-bottom: 14px; }
     .card h1 { font-size: 26px; color: var(--aegis-red); letter-spacing: 1px; margin-bottom: 6px; }
-    .card .tag { color: #555; font-size: 15px; margin-bottom: 26px; }
+    .card .tag { color: #555; font-size: 15px; margin-bottom: 24px; }
     .card p.lede { color: #444; font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
+    .signout-note {
+      background: #eef6ef; border: 1px solid #cfe6d2; color: #2c6e3a;
+      font-size: 13px; border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; display: none;
+    }
     .card ul.trust { list-style: none; text-align: left; margin: 0 auto 26px; max-width: 440px; }
-    .card ul.trust li { font-size: 13px; color: #444; line-height: 1.5; padding: 5px 0; }
+    .card ul.trust li { font-size: 13px; color: #444; line-height: 1.5; padding: 6px 0; display: flex; gap: 10px; align-items: flex-start; }
+    .card ul.trust li i { color: var(--aegis-blue); width: 18px; text-align: center; margin-top: 2px; flex: none; }
     .cta {
       display: inline-flex; align-items: center; gap: 10px;
       background: var(--aegis-blue); color: #fff; text-decoration: none;
-      padding: 13px 26px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
-      border: none;
+      padding: 13px 26px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; border: none;
     }
     .cta:hover { background: #244a85; }
     .gicon { width: 18px; height: 18px; background: #fff; border-radius: 2px; padding: 1px; }
     .fineprint { margin-top: 22px; font-size: 12px; color: #888; line-height: 1.5; }
 
-    /* Embedded app */
+    /* Embedded app fills the viewport; the app supplies its own bar. */
     .frame-wrap { flex: 1; display: none; }
     iframe#app { width: 100%; height: 100%; border: 0; display: block; }
     body.embedded main { display: none; }
@@ -77,16 +65,6 @@
   </style>
 </head>
 <body>
-  <header class="bar">
-    <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
-      <path d="M50 6 L88 20 V52 C88 76 70 90 50 96 C30 90 12 76 12 52 V20 Z" fill="#c00000"/>
-      <path d="M44 28 h12 v16 h16 v12 h-16 v16 h-12 v-16 h-16 v-12 h16 z" fill="#fff"/>
-    </svg>
-    <span class="wordmark">AEGIS <span>medical emergency record</span></span>
-    <span class="spacer"></span>
-    <a class="open-link" id="openNewTab" href="#" target="_blank" rel="noopener">Open in new tab ↗</a>
-  </header>
-
   <main>
     <div class="card">
       <svg class="shield" viewBox="0 0 100 100" aria-hidden="true">
@@ -95,16 +73,20 @@
       </svg>
       <h1>AEGIS</h1>
       <div class="tag">Your critical medical information, ready when it matters.</div>
+
+      <div class="signout-note" id="signoutNote"><i class="fas fa-circle-check"></i> You've been signed out of Aegis.</div>
+
       <p class="lede">
         Aegis keeps an emergency medical summary — conditions, medications, allergies,
         and critical alerts — that you can show or print for emergency personnel in
         seconds. Your data lives in your own Google account; only you can see it.
       </p>
       <ul class="trust">
-        <li>🔒 Aegis only ever touches the <strong>one file it creates for you</strong> — never the rest of your Drive.</li>
-        <li>🙈 Your record stays in <strong>your</strong> Google Drive. We can't read other people's data, and they can't read yours.</li>
-        <li>📄 Edit it anytime as a normal Google Sheet, or print it as a PDF.</li>
+        <li><i class="fas fa-lock"></i> <span>Aegis only ever touches the <strong>one file it creates for you</strong> — never the rest of your Drive.</span></li>
+        <li><i class="fas fa-user-shield"></i> <span>Your record stays in <strong>your</strong> Google Drive. We can't read other people's data, and they can't read yours.</span></li>
+        <li><i class="fas fa-file-lines"></i> <span>Edit it anytime as a normal Google Sheet, or print it as a PDF.</span></li>
       </ul>
+
       <button class="cta" id="launch">
         <svg class="gicon" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45 24c0-1.6-.1-2.8-.4-4H24v8.5h12c-.2 1.9-1.5 4.8-4.4 6.7l-.04.3 6.4 5 .4.04C42.7 37.1 45 31.1 45 24z"/><path fill="#34A853" d="M24 46c5.8 0 10.6-1.9 14.2-5.2l-6.8-5.3c-1.8 1.3-4.3 2.2-7.4 2.2-5.7 0-10.5-3.8-12.2-9l-.3.02-6.6 5.1-.1.3C8.3 41.1 15.6 46 24 46z"/><path fill="#FBBC05" d="M11.8 28.7c-.5-1.3-.7-2.7-.7-4.2s.3-2.9.7-4.2l-.01-.3-6.7-5.2-.2.1C3.4 18.3 3 21.1 3 24s.4 5.7 1.6 9.3l7.2-4.6z"/><path fill="#EA4335" d="M24 10.7c4 0 6.8 1.7 8.3 3.2l6.1-5.9C34.6 4.7 29.8 3 24 3 15.6 3 8.3 7.9 4.6 14.7l7.2 5.6c1.7-5.2 6.5-9 12.2-9z"/></svg>
         Sign in with Google
@@ -123,28 +105,28 @@
   <script>
     (function () {
       var configured = AEGIS_APP_URL.indexOf("__") !== 0;
-      var openNewTab = document.getElementById('openNewTab');
-      var launch = document.getElementById('launch');
+      var appOrigin = configured ? new URL(AEGIS_APP_URL).origin : null;
+      var fallbackTimer = null;
 
-      if (configured) {
-        openNewTab.href = AEGIS_APP_URL;
-      } else {
-        openNewTab.style.display = 'none';
+      if (/[?&]signout=1/.test(location.search)) {
+        document.getElementById('signoutNote').style.display = 'block';
       }
 
-      function embed() {
-        if (!configured) {
-          alert('Aegis is not wired up yet — the app URL has not been configured.');
-          return;
+      // The app posts 'aegis-ready' once it renders inside the iframe. If we don't
+      // hear it (e.g. a first-time user hitting Google's consent, which refuses to
+      // load in a frame), launch the app top-level instead.
+      window.addEventListener('message', function (e) {
+        if (appOrigin && e.origin === appOrigin && e.data === 'aegis-ready') {
+          if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; }
         }
-        // Try to embed the app. Google's sign-in/consent screen cannot render
-        // inside a frame, so if the user is not yet authorized we fall back to a
-        // full-tab launch via the "Open in new tab" link.
+      });
+
+      document.getElementById('launch').addEventListener('click', function () {
+        if (!configured) { alert('Aegis is not wired up yet — the app URL has not been configured.'); return; }
         document.getElementById('app').src = AEGIS_APP_URL;
         document.body.classList.add('embedded');
-      }
-
-      launch.addEventListener('click', embed);
+        fallbackTimer = setTimeout(function () { window.location.assign(AEGIS_APP_URL); }, 4500);
+      });
     })();
   </script>
 </body>
