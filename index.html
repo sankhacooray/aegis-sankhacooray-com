@@ -56,7 +56,9 @@
     .card .shield { width: 64px; height: 64px; margin-bottom: 14px; }
     .card h1 { font-size: 26px; color: var(--aegis-red); letter-spacing: 1px; margin-bottom: 6px; }
     .card .tag { color: #555; font-size: 15px; margin-bottom: 26px; }
-    .card p.lede { color: #444; font-size: 14px; line-height: 1.6; margin-bottom: 26px; }
+    .card p.lede { color: #444; font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
+    .card ul.trust { list-style: none; text-align: left; margin: 0 auto 26px; max-width: 440px; }
+    .card ul.trust li { font-size: 13px; color: #444; line-height: 1.5; padding: 5px 0; }
     .cta {
       display: inline-flex; align-items: center; gap: 10px;
       background: var(--aegis-blue); color: #fff; text-decoration: none;
@@ -98,6 +100,11 @@
         and critical alerts — that you can show or print for emergency personnel in
         seconds. Your data lives in your own Google account; only you can see it.
       </p>
+      <ul class="trust">
+        <li>🔒 Aegis only ever touches the <strong>one file it creates for you</strong> — never the rest of your Drive.</li>
+        <li>🙈 Your record stays in <strong>your</strong> Google Drive. We can't read other people's data, and they can't read yours.</li>
+        <li>📄 Edit it anytime as a normal Google Sheet, or print it as a PDF.</li>
+      </ul>
       <button class="cta" id="launch">
         <svg class="gicon" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45 24c0-1.6-.1-2.8-.4-4H24v8.5h12c-.2 1.9-1.5 4.8-4.4 6.7l-.04.3 6.4 5 .4.04C42.7 37.1 45 31.1 45 24z"/><path fill="#34A853" d="M24 46c5.8 0 10.6-1.9 14.2-5.2l-6.8-5.3c-1.8 1.3-4.3 2.2-7.4 2.2-5.7 0-10.5-3.8-12.2-9l-.3.02-6.6 5.1-.1.3C8.3 41.1 15.6 46 24 46z"/><path fill="#FBBC05" d="M11.8 28.7c-.5-1.3-.7-2.7-.7-4.2s.3-2.9.7-4.2l-.01-.3-6.7-5.2-.2.1C3.4 18.3 3 21.1 3 24s.4 5.7 1.6 9.3l7.2-4.6z"/><path fill="#EA4335" d="M24 10.7c4 0 6.8 1.7 8.3 3.2l6.1-5.9C34.6 4.7 29.8 3 24 3 15.6 3 8.3 7.9 4.6 14.7l7.2 5.6c1.7-5.2 6.5-9 12.2-9z"/></svg>
         Sign in with Google
